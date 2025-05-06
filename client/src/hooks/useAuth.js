@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 import { setUserDetails } from "../store/userSlice";
 // Helper function to sync user profile with your backend
 // IMPORTANT: I need supabaseUserId,
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
 async function syncUserProfile(user) {
   if (!user) return;
 
@@ -37,7 +40,7 @@ async function syncUserProfile(user) {
     // }
 
     // **2. Create user if they don't exist:**
-    const response = await fetch("http://localhost:3000/api/v1/users/sync-user", {
+    const response = await fetch(`${apiUrl}/api/v1/users/sync-user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +53,7 @@ async function syncUserProfile(user) {
         avatarUrl: avatarUrl,
         // Add any other fields your backend expects
       }),
-    }); 
+    });
 
     if (!response.ok) {
       // Handle specific error statuses (e.g., 409 Conflict if user already exists)
@@ -83,7 +86,7 @@ export function useAuth() {
       .then(({ data: { session } }) => {
         console.log("i am session", session);
         setUser(session?.user ?? null);
-        console.log(user); 
+        console.log(user);
         dispatch(setUserDetails(session?.user ?? null));
         setLoading(false); // Set loading to false after initial check
         // Potentially sync here too if needed, though onAuthStateChange often covers it
