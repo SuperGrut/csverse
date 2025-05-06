@@ -9,6 +9,7 @@ import {
   setResourcesError,
 } from "../store/resourceSlice";
 
+const apiUrl = import.meta.env.VITE_API_URL;
 const Home = () => {
   const dispatch = useDispatch();
   const [selectedFilter, setSelectedFilter] = useState(null);
@@ -20,9 +21,7 @@ const Home = () => {
       try {
         // NOTE: The endpoint '/create' seems unusual for a GET request to fetch resources.
         // Typically, it might be just '/resources' or similar. Please verify the endpoint.
-        const response = await fetch(
-          "http://localhost:3000/api/v1/resources/create"
-        );
+        const response = await fetch(`${apiUrl}/api/v1/resources/create`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
