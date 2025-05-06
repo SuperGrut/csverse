@@ -1,7 +1,14 @@
 import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { Popover, Transition } from "@headlessui/react";
-import { UserCircle, BookOpen, LogOut, PlusCircle, LogIn } from "lucide-react";
+import {
+  UserCircle,
+  BookOpen,
+  LogOut,
+  PlusCircle,
+  LogIn,
+  Code,
+} from "lucide-react";
 import ContributeModal from "./ContributeModal";
 
 const Navbar = ({ user, signOut, signInWithTwitter }) => {
@@ -15,18 +22,18 @@ const Navbar = ({ user, signOut, signInWithTwitter }) => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-40 flex justify-between items-center p-4 bg-gray-100 shadow-md">
+      <nav className="fixed top-0 left-0 right-0 z-40 flex justify-between items-center p-4 bg-gray-600 shadow-md">
         <div>
-          <Link to="/" className="text-xl font-bold text-indigo-600">
-            <h3>csverse</h3>
+          <Link to="/" className="text-xl font-bold text-white">
+            <div className="flex items-center space-x-2">
+              <Code className="h-8 w-8 text-csblue" />
+              <span className="text-xl font-bold text-white">CSVerse</span>
+            </div>
           </Link>
         </div>
         <div className="flex gap-4 items-center">
           {user && (
-            <Link
-              to="/leaderboard"
-              className="text-gray-700 hover:text-indigo-600"
-            >
+            <Link to="/leaderboard" className="text-white hover:text-gray-300">
               Leaderboard
             </Link>
           )}
@@ -68,7 +75,7 @@ const Navbar = ({ user, signOut, signInWithTwitter }) => {
                             </div>
                           )}
 
-                          <a
+                          {/* <a
                             href="#"
                             onClick={close}
                             className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
@@ -78,7 +85,7 @@ const Navbar = ({ user, signOut, signInWithTwitter }) => {
                               aria-hidden="true"
                             />
                             Score
-                          </a>
+                          </a> */}
                           <button
                             onClick={() => {
                               openModal();

@@ -189,6 +189,15 @@ const createResource = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to create the resource");
   }
 
+  // Fix: update user score as a fire-and-forget Promise rather than swallowing in a try/catch
+  Resource.countDocuments({ submittedBy: userId })
+    .then((count) =>
+      User.findByIdAndUpdate(userId, { score: count * 10 }, { new: true }),
+    )
+    .catch((error) => {
+      console.error(`Failed to update user score for user ${userId}:`, error);
+    });
+
   return res
     .status(201)
     .json(new ApiResponse(201, resource, "Resource created successfully"));

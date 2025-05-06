@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import morgan from "morgan";
 
 // Import routers
 import resourceRouter from "./routes/resources.routes.js";
@@ -12,6 +13,9 @@ dotenv.config({
 });
 
 const app = express();
+
+// Use morgan for request logging - typically one of the first middleware
+app.use(morgan("dev"));
 
 app.use(
   cors({

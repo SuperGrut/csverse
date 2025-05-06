@@ -1,7 +1,8 @@
 import User from "../models/User.js";
+import { ApiError, ApiResponse, asyncHandler } from "./resource.controller.js";
 
 // Controller to sync user profile (create or update)
-export const syncUser = async (req, res) => {
+const syncUser = async (req, res) => {
   const { supabaseUserId, username, avatarUrl } = req.body;
 
   // Basic validation
@@ -48,3 +49,28 @@ export const syncUser = async (req, res) => {
       .json({ message: "Internal server error during user sync." });
   }
 };
+
+/**
+ * @description Get the leaderboard of users sorted by score
+ * @route GET /api/v1/users/leaderboard
+ * @access Public
+ */
+const getLeaderboard = asyncHandler(async (req, res) => {
+  // Find users, select necessary fields, sort by score descending, limit to top 100 (or adjust as needed)
+  const leaderboard = await User.find({})
+    .select("username avatarUrl score") // Select only username, avatarUrl, and score
+    .sort({ score: -1 }) // Sort by score in descending order
+    .limit(100); // Optionally limit the number of results
+
+  if (!leaderboard) {
+    throw new ApiError(404, "Leaderboard data not found.");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, leaderboard, "Leaderboard fetched successfully"),
+    );
+});
+
+export { syncUser, getLeaderboard };

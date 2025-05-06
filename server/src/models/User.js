@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    score: {
+      type: Number,
+      default: 0,
+    },
     avatarUrl: {
       type: String,
       trim: true, // Trim whitespace

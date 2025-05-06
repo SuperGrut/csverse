@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient"; // Assuming supabaseClient is setup here
-
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../store/userSlice";
 // Helper function to sync user profile with your backend
-// IMPORTANT: Replace '/api/users' with your actual endpoint
-// and adapt the fetch logic/body based on your backend API requirements.
+// IMPORTANT: I need supabaseUserId,
 async function syncUserProfile(user) {
   if (!user) return;
 
   // Extract relevant data (adjust field names if needed based on provider)
   const userId = user.id;
+  console.log(userId);
   const username =
     user.user_metadata?.user_name ||
     user.user_metadata?.full_name ||
@@ -36,7 +37,7 @@ async function syncUserProfile(user) {
     // }
 
     // **2. Create user if they don't exist:**
-    const response = await fetch("/api/v1/users", {
+    const response = await fetch("http://localhost:3000/api/v1/users/sync-user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +50,7 @@ async function syncUserProfile(user) {
         avatarUrl: avatarUrl,
         // Add any other fields your backend expects
       }),
-    });
+    }); 
 
     if (!response.ok) {
       // Handle specific error statuses (e.g., 409 Conflict if user already exists)
@@ -73,13 +74,17 @@ async function syncUserProfile(user) {
 export function useAuth() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // Add loading state
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Check initial session
     supabase.auth
       .getSession()
       .then(({ data: { session } }) => {
+        console.log("i am session", session);
         setUser(session?.user ?? null);
+        console.log(user); 
+        dispatch(setUserDetails(session?.user ?? null));
         setLoading(false); // Set loading to false after initial check
         // Potentially sync here too if needed, though onAuthStateChange often covers it
         // if (session?.user) {

@@ -5,6 +5,8 @@ import Home from "./components/Home";
 import Leaderboard from "./components/Leaderboard";
 import { useAuth } from "./hooks/useAuth";
 import { LoaderCircle } from "lucide-react";
+import { Toaster } from "react-hot-toast";
+import Index from "./components/LandingPage/Index";
 
 function App() {
   const { user, loading, signInWithTwitter, signOut } = useAuth();
@@ -19,6 +21,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Toaster position="top-center" reverseOrder={false} />
       <Navbar
         user={user}
         signOut={signOut}
@@ -26,7 +29,7 @@ function App() {
       />
 
       {user ? (
-        <main className="pt-20 container mx-auto px-4">
+        <main className="pt-20 container mx-auto">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
@@ -34,7 +37,7 @@ function App() {
         </main>
       ) : (
         <div className="flex flex-col justify-center items-center h-[calc(100vh-80px)] text-center px-4">
-          <h1 className="text-2xl font-semibold mb-4">Welcome to csverse!</h1>
+          {/* <h1 className="text-2xl font-semibold mb-4">Welcome to csverse!</h1>
           <p className="mb-6 text-gray-600">
             Please sign in to contribute and view resources.
           </p>
@@ -51,7 +54,8 @@ function App() {
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
             </svg>
             Sign in with X
-          </button>
+          </button> */}
+          <Index signInWithTwitter={signInWithTwitter} />
         </div>
       )}
     </BrowserRouter>
