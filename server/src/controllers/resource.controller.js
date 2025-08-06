@@ -45,6 +45,7 @@ export class ApiResponse {
   }
 }
 
+// TODO: Separate middleware in separate file (middleware folder)
 // Middleware to fetch user by Supabase ID from req.body
 const fetchUserBySupabaseId = asyncHandler(async (req, _, next) => {
   const { supabaseUserId } = req.body;
@@ -70,6 +71,7 @@ const fetchUserBySupabaseId = asyncHandler(async (req, _, next) => {
   next(); // Proceed to the next middleware or controller
 });
 
+// TODO: shift it to utils folder
 // Helper function to extract YouTube Video ID
 const extractYouTubeVideoId = (url) => {
   try {
@@ -88,6 +90,7 @@ const extractYouTubeVideoId = (url) => {
   return null;
 };
 
+// CREATE
 const createResource = asyncHandler(async (req, res) => {
   // User ID is now expected to be attached by fetchUserBySupabaseId middleware
   const userId = req.user?._id;
@@ -203,6 +206,7 @@ const createResource = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, resource, "Resource created successfully"));
 });
 
+// READ
 const getAllResources = asyncHandler(async (req, res) => {
   // TODO: Add pagination, filtering, sorting options via query parameters
   const resources = await Resource.find()
