@@ -6,23 +6,7 @@
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
     "start": "node -r dotenv/config --experimental-json-modules src/index.js",
-    "test": "jest --runInBand"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "transform": {
-      "^.+\\.[jt]sx?$": "babel-jest"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "json"
-    ],
-    "extensionsToTreatAsEsm": [
-      ".js"
-    ],
-    "globals": {
-      "__DEV__": true
-    }
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
   "author": "",
