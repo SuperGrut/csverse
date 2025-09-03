@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
     "start": "node -r dotenv/config --experimental-json-modules src/index.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -22,12 +22,7 @@
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.28.0",
-    "@babel/preset-modules": "^0.1.6",
-    "@types/jest": "^30.0.0",
-    "babel-jest": "^30.0.5",
-    "jest": "^30.0.5",
-    "mongodb-memory-server": "^10.2.0",
-    "supertest": "^7.1.4"
+    "supertest": "^7.1.4",
+    "vitest": "^3.2.4"
   }
 }
