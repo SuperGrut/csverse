@@ -5,7 +5,6 @@ import { ApiError, ApiResponse, asyncHandler } from "./resource.controller.js";
 const syncUser = async (req, res) => {
   const { supabaseUserId, username, avatarUrl } = req.body;
 
-  // Basic validation
   if (!supabaseUserId || !username) {
     return res.status(400).json({
       message: "Missing required fields: supabaseUserId and username",
@@ -13,22 +12,19 @@ const syncUser = async (req, res) => {
   }
 
   try {
-    // Find user by supabaseUserId and update, or create if not found (upsert)
     const options = {
-      upsert: true, // Create if document doesn't exist
-      new: true, // Return the modified document rather than the original
-      setDefaultsOnInsert: true, // Apply schema defaults if creating a new doc
+      upsert: true,
+      new: true,
+      setDefaultsOnInsert: true,
     };
 
     const updatedUser = await User.findOneAndUpdate(
-      { supabaseUserId }, // Query: find user by supabaseUserId
-      { $set: { username, avatarUrl } }, // Update: set username and avatarUrl
+      { supabaseUserId },
+      { $set: { username, avatarUrl } },
       options,
     );
 
-    // Determine if the user was created or updated (optional)
     let message = "User profile synced successfully.";
-    // Note: Checking `upsertedId` or comparing dates could determine if new
 
     console.log(
       `User synced: ${updatedUser.username} (ID: ${updatedUser.supabaseUserId})`,
